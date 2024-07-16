@@ -519,6 +519,84 @@ paths:
       summary: Get project configs by git url
       tags:
       - project-config
+  /project-config/prebuild:
+    delete:
+      description: Delete prebuild
+      operationId: DeletePrebuild
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrebuildConfig'
+        description: Prebuild
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete prebuild
+      tags:
+      - prebuild
+      x-codegen-request-body-name: prebuild
+    get:
+      description: List prebuilds
+      operationId: ListPrebuilds
+      parameters:
+      - description: Config name
+        in: path
+        name: configName
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/PrebuildDTO'
+                type: array
+          description: OK
+      summary: List prebuilds
+      tags:
+      - prebuild
+    post:
+      description: Set prebuild
+      operationId: SetPrebuild
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrebuildDTO'
+        description: Prebuild
+        required: true
+      responses:
+        "201":
+          content: {}
+          description: Created
+      summary: Set prebuild
+      tags:
+      - prebuild
+      x-codegen-request-body-name: prebuild
+  /project-config/prebuild/process-git-event:
+    post:
+      description: ProcessGitEvent
+      operationId: ProcessGitEvent
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+        description: Webhook event
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: ProcessGitEvent
+      tags:
+      - prebuild
+      x-codegen-request-body-name: workspace
   /project-config/{configName}:
     delete:
       description: Delete project config data
@@ -1276,6 +1354,46 @@ components:
         key:
           type: string
       type: object
+    PrebuildConfig:
+      example:
+        commitInterval: 0
+        id: id
+        branch: branch
+        triggerFiles:
+        - triggerFiles
+        - triggerFiles
+      properties:
+        branch:
+          type: string
+        commitInterval:
+          type: integer
+        id:
+          type: string
+        triggerFiles:
+          items:
+            type: string
+          type: array
+      type: object
+    PrebuildDTO:
+      example:
+        projectConfigName: projectConfigName
+        commitInterval: 0
+        branch: branch
+        triggerFiles:
+        - triggerFiles
+        - triggerFiles
+      properties:
+        branch:
+          type: string
+        commitInterval:
+          type: integer
+        projectConfigName:
+          type: string
+        triggerFiles:
+          items:
+            type: string
+          type: array
+      type: object
     ProfileData:
       example:
         envVars:
@@ -1288,6 +1406,19 @@ components:
       type: object
     Project:
       example:
+        prebuilds:
+        - commitInterval: 0
+          id: id
+          branch: branch
+          triggerFiles:
+          - triggerFiles
+          - triggerFiles
+        - commitInterval: 0
+          id: id
+          branch: branch
+          triggerFiles:
+          - triggerFiles
+          - triggerFiles
         buildConfig:
           devcontainer:
             filePath: filePath
@@ -1336,6 +1467,10 @@ components:
           type: string
         name:
           type: string
+        prebuilds:
+          items:
+            $ref: '#/components/schemas/PrebuildConfig'
+          type: array
         repository:
           $ref: '#/components/schemas/GitRepository'
         state:
@@ -1357,6 +1492,19 @@ components:
       type: object
     ProjectConfig:
       example:
+        prebuilds:
+        - commitInterval: 0
+          id: id
+          branch: branch
+          triggerFiles:
+          - triggerFiles
+          - triggerFiles
+        - commitInterval: 0
+          id: id
+          branch: branch
+          triggerFiles:
+          - triggerFiles
+          - triggerFiles
         buildConfig:
           devcontainer:
             filePath: filePath
@@ -1389,6 +1537,10 @@ components:
           type: string
         name:
           type: string
+        prebuilds:
+          items:
+            $ref: '#/components/schemas/PrebuildConfig'
+          type: array
         repository:
           $ref: '#/components/schemas/GitRepository'
         user:
@@ -1571,7 +1723,20 @@ components:
     Workspace:
       example:
         projects:
-        - buildConfig:
+        - prebuilds:
+          - commitInterval: 0
+            id: id
+            branch: branch
+            triggerFiles:
+            - triggerFiles
+            - triggerFiles
+          - commitInterval: 0
+            id: id
+            branch: branch
+            triggerFiles:
+            - triggerFiles
+            - triggerFiles
+          buildConfig:
             devcontainer:
               filePath: filePath
           image: image
@@ -1606,7 +1771,20 @@ components:
           user: user
           target: target
           workspaceId: workspaceId
-        - buildConfig:
+        - prebuilds:
+          - commitInterval: 0
+            id: id
+            branch: branch
+            triggerFiles:
+            - triggerFiles
+            - triggerFiles
+          - commitInterval: 0
+            id: id
+            branch: branch
+            triggerFiles:
+            - triggerFiles
+            - triggerFiles
+          buildConfig:
             devcontainer:
               filePath: filePath
           image: image
@@ -1659,7 +1837,20 @@ components:
     WorkspaceDTO:
       example:
         projects:
-        - buildConfig:
+        - prebuilds:
+          - commitInterval: 0
+            id: id
+            branch: branch
+            triggerFiles:
+            - triggerFiles
+            - triggerFiles
+          - commitInterval: 0
+            id: id
+            branch: branch
+            triggerFiles:
+            - triggerFiles
+            - triggerFiles
+          buildConfig:
             devcontainer:
               filePath: filePath
           image: image
@@ -1694,7 +1885,20 @@ components:
           user: user
           target: target
           workspaceId: workspaceId
-        - buildConfig:
+        - prebuilds:
+          - commitInterval: 0
+            id: id
+            branch: branch
+            triggerFiles:
+            - triggerFiles
+            - triggerFiles
+          - commitInterval: 0
+            id: id
+            branch: branch
+            triggerFiles:
+            - triggerFiles
+            - triggerFiles
+          buildConfig:
             devcontainer:
               filePath: filePath
           image: image

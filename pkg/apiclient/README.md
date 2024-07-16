@@ -96,6 +96,10 @@ Class | Method | HTTP request | Description
 *GitProviderAPI* | [**ListGitProviders**](docs/GitProviderAPI.md#listgitproviders) | **Get** /gitprovider | List Git providers
 *GitProviderAPI* | [**RemoveGitProvider**](docs/GitProviderAPI.md#removegitprovider) | **Delete** /gitprovider/{gitProviderId} | Remove Git provider
 *GitProviderAPI* | [**SetGitProvider**](docs/GitProviderAPI.md#setgitprovider) | **Put** /gitprovider | Set Git provider
+*PrebuildAPI* | [**DeletePrebuild**](docs/PrebuildAPI.md#deleteprebuild) | **Delete** /project-config/prebuild | Delete prebuild
+*PrebuildAPI* | [**ListPrebuilds**](docs/PrebuildAPI.md#listprebuilds) | **Get** /project-config/prebuild | List prebuilds
+*PrebuildAPI* | [**ProcessGitEvent**](docs/PrebuildAPI.md#processgitevent) | **Post** /project-config/prebuild/process-git-event | ProcessGitEvent
+*PrebuildAPI* | [**SetPrebuild**](docs/PrebuildAPI.md#setprebuild) | **Post** /project-config/prebuild | Set prebuild
 *ProfileAPI* | [**DeleteProfileData**](docs/ProfileAPI.md#deleteprofiledata) | **Delete** /profile | Delete profile data
 *ProfileAPI* | [**GetProfileData**](docs/ProfileAPI.md#getprofiledata) | **Get** /profile | Get profile data
 *ProfileAPI* | [**SetProfileData**](docs/ProfileAPI.md#setprofiledata) | **Put** /profile | Set profile data
@@ -146,6 +150,8 @@ Class | Method | HTTP request | Description
  - [GitUser](docs/GitUser.md)
  - [InstallProviderRequest](docs/InstallProviderRequest.md)
  - [NetworkKey](docs/NetworkKey.md)
+ - [PrebuildConfig](docs/PrebuildConfig.md)
+ - [PrebuildDTO](docs/PrebuildDTO.md)
  - [ProfileData](docs/ProfileData.md)
  - [Project](docs/Project.md)
  - [ProjectBuildConfig](docs/ProjectBuildConfig.md)

@@ -12,12 +12,10 @@ import (
 )
 
 var MockBuild = &build.Build{
-	Id:      "1",
-	Hash:    "test",
-	Project: MockProject,
-	State:   build.BuildStatePending,
-	User:    "test",
-	Image:   "test",
+	Id:            "1",
+	Hash:          "test",
+	ProjectConfig: MockProjectConfig,
+	State:         build.BuildStatePending,
 }
 
 type MockBuilderFactory struct {

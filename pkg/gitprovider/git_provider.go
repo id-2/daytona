@@ -9,6 +9,8 @@ import (
 	"net/url"
 	"regexp"
 	"strings"
+
+	"github.com/daytonaio/daytona/pkg/server/gitproviders/dto"
 )
 
 const personalNamespaceId = "<PERSONAL>"
@@ -37,6 +39,10 @@ type GitProvider interface {
 	GetLastCommitSha(staticContext *StaticGitContext) (string, error)
 	getPrContext(staticContext *StaticGitContext) (*StaticGitContext, error)
 	parseStaticGitContext(repoUrl string) (*StaticGitContext, error)
+	getCommitsRange(repo *GitRepository, owner string, initialSha string, currentSha string) (int, error)
+
+	RegisterPrebuildWebhook(repo *GitRepository, endpointUrl string) error
+	ParseWebhookEvent(webhookRequestPayload map[string]interface{}) (*dto.WebhookEventPayload, error)
 }
 
 type AbstractGitProvider struct {
@@ -128,6 +134,10 @@ func (a *AbstractGitProvider) parseSshGitUrl(gitURL string) (*StaticGitContext, 
 	repo.Url = getCloneUrl(repo.Source, repo.Owner, repo.Name, true)
 
 	return repo, nil
+}
+
+func (a *AbstractGitProvider) getCommitsRange(repo *GitRepository, owner string, initialSha string, currentSha string) (int, error) {
+	return 0, nil
 }
 
 func getCloneUrl(source, owner, repo string, isHttps bool) string {

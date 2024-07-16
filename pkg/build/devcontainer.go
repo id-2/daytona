@@ -70,7 +70,7 @@ func (b *DevcontainerBuilder) CleanUp() error {
 }
 
 func (b *DevcontainerBuilder) Publish(build Build) error {
-	buildLogger := b.loggerFactory.CreateBuildLogger(build.Project.Name, build.Id, logs.LogSourceBuilder)
+	buildLogger := b.loggerFactory.CreateBuildLogger(build.ProjectConfig.Name, build.Id, logs.LogSourceBuilder)
 	defer buildLogger.Close()
 
 	cliBuilder, err := b.getBuilderDockerClient()
@@ -87,11 +87,11 @@ func (b *DevcontainerBuilder) Publish(build Build) error {
 		return err
 	}
 
-	return dockerClient.PushImage(build.Image, cr, buildLogger)
+	return dockerClient.PushImage(build.ProjectConfig.Image, cr, buildLogger)
 }
 
 func (b *DevcontainerBuilder) buildDevcontainer(build Build) (string, string, error) {
-	buildLogger := b.loggerFactory.CreateBuildLogger(build.Project.Name, build.Id, logs.LogSourceBuilder)
+	buildLogger := b.loggerFactory.CreateBuildLogger(build.ProjectConfig.Name, build.Id, logs.LogSourceBuilder)
 	defer buildLogger.Close()
 
 	cli, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
@@ -104,8 +104,8 @@ func (b *DevcontainerBuilder) buildDevcontainer(build Build) (string, string, er
 	})
 
 	cmd := []string{"devcontainer", "up", "--prebuild", "--workspace-folder", "/project"}
-	if build.Project.BuildConfig.Devcontainer.FilePath != "" {
-		cmd = append(cmd, "--config", filepath.Join("/project", build.Project.BuildConfig.Devcontainer.FilePath))
+	if build.ProjectConfig.BuildConfig.Devcontainer.FilePath != "" {
+		cmd = append(cmd, "--config", filepath.Join("/project", build.ProjectConfig.BuildConfig.Devcontainer.FilePath))
 	}
 
 	execConfig := types.ExecConfig{
@@ -161,7 +161,7 @@ func (b *DevcontainerBuilder) buildDevcontainer(build Build) (string, string, er
 		return b.defaultProjectImage, b.defaultProjectUser, err
 	}
 
-	tag := build.Project.Repository.Sha
+	tag := build.ProjectConfig.Repository.Sha
 	namespace := b.buildImageNamespace
 	imageName := fmt.Sprintf("%s%s/p-%s:%s", b.containerRegistryServer, namespace, b.id, tag)
 
@@ -178,7 +178,7 @@ func (b *DevcontainerBuilder) buildDevcontainer(build Build) (string, string, er
 func (b *DevcontainerBuilder) startContainer(build Build) error {
 	ctx := context.Background()
 
-	buildLogger := b.loggerFactory.CreateBuildLogger(build.Project.Name, build.Id, logs.LogSourceBuilder)
+	buildLogger := b.loggerFactory.CreateBuildLogger(build.ProjectConfig.Name, build.Id, logs.LogSourceBuilder)
 	defer buildLogger.Close()
 
 	cli, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())

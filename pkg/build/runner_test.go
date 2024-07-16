@@ -93,8 +93,8 @@ func (s *BuildRunnerTestSuite) TestRunBuildProcess() {
 
 	successBuild := *mocks.MockBuild
 	successBuild.State = build.BuildStateSuccess
-	successBuild.Image = "image"
-	successBuild.User = "user"
+	successBuild.ProjectConfig.Image = "image"
+	successBuild.ProjectConfig.User = "user"
 	s.mockBuilder.On("Publish", successBuild).Return(nil)
 
 	s.mockBuilder.On("CleanUp").Return(nil)
@@ -104,7 +104,7 @@ func (s *BuildRunnerTestSuite) TestRunBuildProcess() {
 	s.mockBuilderFactory.AssertExpectations(s.T())
 	s.mockBuilder.AssertExpectations(s.T())
 
-	s.Require().Equal(mocks.MockBuild.Image, "image")
-	s.Require().Equal(mocks.MockBuild.User, "user")
+	s.Require().Equal(mocks.MockBuild.ProjectConfig.Image, "image")
+	s.Require().Equal(mocks.MockBuild.ProjectConfig.User, "user")
 	s.Require().Equal(mocks.MockBuild.State, build.BuildStatePublished)
 }

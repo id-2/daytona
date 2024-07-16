@@ -89,11 +89,11 @@ func (r *BuildRunner) RunBuildProcess(build *Build, wg *sync.WaitGroup) {
 		defer wg.Done()
 	}
 
-	if build.Project.BuildConfig == nil {
+	if build.ProjectConfig.BuildConfig == nil {
 		return
 	}
 
-	buildLogger := r.loggerFactory.CreateBuildLogger(build.Project.Name, build.Id, logs.LogSourceBuilder)
+	buildLogger := r.loggerFactory.CreateBuildLogger(build.ProjectConfig.Name, build.Id, logs.LogSourceBuilder)
 	defer buildLogger.Close()
 
 	builder, err := r.builderFactory.Create(*build)
@@ -115,8 +115,8 @@ func (r *BuildRunner) RunBuildProcess(build *Build, wg *sync.WaitGroup) {
 		return
 	}
 
-	build.Image = image
-	build.User = user
+	build.ProjectConfig.Image = image
+	build.ProjectConfig.User = user
 	build.State = BuildStateSuccess
 	err = r.buildStore.Save(build)
 	if err != nil {
@@ -152,7 +152,7 @@ func (r *BuildRunner) RunBuildProcess(build *Build, wg *sync.WaitGroup) {
 func (r *BuildRunner) handleBuildError(build Build, builder IBuilder, err error, buildLogger logs.Logger) {
 	var errMsg string
 	errMsg += "################################################\n"
-	errMsg += fmt.Sprintf("#### BUILD FAILED FOR PROJECT %s: %s\n", build.Project.Name, err.Error())
+	errMsg += fmt.Sprintf("#### BUILD FAILED FOR PROJECT %s: %s\n", build.ProjectConfig.Name, err.Error())
 	errMsg += "################################################\n"
 
 	build.State = BuildStateError

@@ -24,6 +24,7 @@ type ProjectConfig struct {
 	EnvVars     *map[string]string  `json:"envVars,omitempty"`
 	Image       *string             `json:"image,omitempty"`
 	Name        *string             `json:"name,omitempty"`
+	Prebuilds   []PrebuildConfig    `json:"prebuilds,omitempty"`
 	Repository  *GitRepository      `json:"repository,omitempty"`
 	User        *string             `json:"user,omitempty"`
 }
@@ -205,6 +206,38 @@ func (o *ProjectConfig) SetName(v string) {
 	o.Name = &v
 }
 
+// GetPrebuilds returns the Prebuilds field value if set, zero value otherwise.
+func (o *ProjectConfig) GetPrebuilds() []PrebuildConfig {
+	if o == nil || IsNil(o.Prebuilds) {
+		var ret []PrebuildConfig
+		return ret
+	}
+	return o.Prebuilds
+}
+
+// GetPrebuildsOk returns a tuple with the Prebuilds field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ProjectConfig) GetPrebuildsOk() ([]PrebuildConfig, bool) {
+	if o == nil || IsNil(o.Prebuilds) {
+		return nil, false
+	}
+	return o.Prebuilds, true
+}
+
+// HasPrebuilds returns a boolean if a field has been set.
+func (o *ProjectConfig) HasPrebuilds() bool {
+	if o != nil && !IsNil(o.Prebuilds) {
+		return true
+	}
+
+	return false
+}
+
+// SetPrebuilds gets a reference to the given []PrebuildConfig and assigns it to the Prebuilds field.
+func (o *ProjectConfig) SetPrebuilds(v []PrebuildConfig) {
+	o.Prebuilds = v
+}
+
 // GetRepository returns the Repository field value if set, zero value otherwise.
 func (o *ProjectConfig) GetRepository() GitRepository {
 	if o == nil || IsNil(o.Repository) {
@@ -293,6 +326,9 @@ func (o ProjectConfig) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
+	}
+	if !IsNil(o.Prebuilds) {
+		toSerialize["prebuilds"] = o.Prebuilds
 	}
 	if !IsNil(o.Repository) {
 		toSerialize["repository"] = o.Repository

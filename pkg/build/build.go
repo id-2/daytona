@@ -3,7 +3,9 @@
 
 package build
 
-import "github.com/daytonaio/daytona/pkg/workspace/project"
+import (
+	"github.com/daytonaio/daytona/pkg/workspace/project/config"
+)
 
 type BuildState string
 
@@ -16,10 +18,8 @@ const (
 )
 
 type Build struct {
-	Id      string          `json:"id"`
-	Hash    string          `json:"hash"`
-	State   BuildState      `json:"state"`
-	Project project.Project `json:"project"`
-	User    string          `json:"user"`
-	Image   string          `json:"image"`
+	Id            string               `json:"id"`
+	Hash          string               `json:"hash"`
+	State         BuildState           `json:"state"`
+	ProjectConfig config.ProjectConfig `json:"projectConfig"`
 } // @name Build

@@ -6,6 +6,7 @@
 package mocks
 
 import (
+	"github.com/daytonaio/daytona/pkg/server/projectconfig/prebuild"
 	"github.com/daytonaio/daytona/pkg/workspace/project/config"
 	"github.com/stretchr/testify/mock"
 )
@@ -41,4 +42,9 @@ func (m *mockProjectConfigService) SetDefault(name string) error {
 func (m *mockProjectConfigService) Save(pc *config.ProjectConfig) error {
 	args := m.Called(pc)
 	return args.Error(0)
+}
+
+func (m *mockProjectConfigService) Prebuilds() prebuild.IPrebuildService {
+	args := m.Called()
+	return args.Get(0).(prebuild.IPrebuildService)
 }

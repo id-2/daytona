@@ -734,6 +734,119 @@
                 }
             }
         },
+        "/project-config/prebuild": {
+            "get": {
+                "description": "List prebuilds",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "prebuild"
+                ],
+                "summary": "List prebuilds",
+                "operationId": "ListPrebuilds",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Config name",
+                        "name": "configName",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/PrebuildDTO"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Set prebuild",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "prebuild"
+                ],
+                "summary": "Set prebuild",
+                "operationId": "SetPrebuild",
+                "parameters": [
+                    {
+                        "description": "Prebuild",
+                        "name": "prebuild",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PrebuildDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete prebuild",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "prebuild"
+                ],
+                "summary": "Delete prebuild",
+                "operationId": "DeletePrebuild",
+                "parameters": [
+                    {
+                        "description": "Prebuild",
+                        "name": "prebuild",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PrebuildConfig"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/project-config/prebuild/process-git-event": {
+            "post": {
+                "description": "ProcessGitEvent",
+                "tags": [
+                    "prebuild"
+                ],
+                "summary": "ProcessGitEvent",
+                "operationId": "ProcessGitEvent",
+                "parameters": [
+                    {
+                        "description": "Webhook event",
+                        "name": "workspace",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/project-config/{configName}": {
             "get": {
                 "description": "Get project config data",
@@ -1611,6 +1724,46 @@
                 }
             }
         },
+        "PrebuildConfig": {
+            "type": "object",
+            "properties": {
+                "branch": {
+                    "type": "string"
+                },
+                "commitInterval": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "triggerFiles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "PrebuildDTO": {
+            "type": "object",
+            "properties": {
+                "branch": {
+                    "type": "string"
+                },
+                "commitInterval": {
+                    "type": "integer"
+                },
+                "projectConfigName": {
+                    "type": "string"
+                },
+                "triggerFiles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "ProfileData": {
             "type": "object",
             "properties": {
@@ -1642,6 +1795,12 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "prebuilds": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PrebuildConfig"
+                    }
                 },
                 "repository": {
                     "$ref": "#/definitions/GitRepository"
@@ -1688,6 +1847,12 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "prebuilds": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PrebuildConfig"
+                    }
                 },
                 "repository": {
                     "$ref": "#/definitions/GitRepository"

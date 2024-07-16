@@ -5,6 +5,7 @@ package projectconfig
 
 import (
 	"github.com/daytonaio/daytona/internal/util"
+	"github.com/daytonaio/daytona/pkg/server/projectconfig/prebuild"
 	"github.com/daytonaio/daytona/pkg/workspace/project/config"
 )
 
@@ -14,6 +15,7 @@ type IProjectConfigService interface {
 	List(filter *config.Filter) ([]*config.ProjectConfig, error)
 	SetDefault(projectConfigName string) error
 	Save(projectConfig *config.ProjectConfig) error
+	Prebuilds() prebuild.IPrebuildService
 }
 
 type ProjectConfigServiceConfig struct {
@@ -21,12 +23,16 @@ type ProjectConfigServiceConfig struct {
 }
 
 type ProjectConfigService struct {
-	configStore config.Store
+	configStore     config.Store
+	prebuildService prebuild.IPrebuildService
 }
 
 func NewConfigService(config ProjectConfigServiceConfig) IProjectConfigService {
+	prebuildService := prebuild.NewPrebuildService(config.ConfigStore)
+
 	return &ProjectConfigService{
-		configStore: config.ConfigStore,
+		configStore:     config.ConfigStore,
+		prebuildService: prebuildService,
 	}
 }
 
@@ -87,4 +93,8 @@ func (s *ProjectConfigService) Delete(projectConfigName string) error {
 		return err
 	}
 	return s.configStore.Delete(pc)
+}
+
+func (s *ProjectConfigService) Prebuilds() prebuild.IPrebuildService {
+	return s.prebuildService
 }

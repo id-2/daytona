@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **EnvVars** | Pointer to **map[string]string** |  | [optional] 
 **Image** | Pointer to **string** |  | [optional] 
 **Name** | Pointer to **string** |  | [optional] 
+**Prebuilds** | Pointer to [**[]PrebuildConfig**](PrebuildConfig.md) |  | [optional] 
 **Repository** | Pointer to [**GitRepository**](GitRepository.md) |  | [optional] 
 **User** | Pointer to **string** |  | [optional] 
 
@@ -155,6 +156,31 @@ SetName sets Name field to given value.
 `func (o *ProjectConfig) HasName() bool`
 
 HasName returns a boolean if a field has been set.
+
+### GetPrebuilds
+
+`func (o *ProjectConfig) GetPrebuilds() []PrebuildConfig`
+
+GetPrebuilds returns the Prebuilds field if non-nil, zero value otherwise.
+
+### GetPrebuildsOk
+
+`func (o *ProjectConfig) GetPrebuildsOk() (*[]PrebuildConfig, bool)`
+
+GetPrebuildsOk returns a tuple with the Prebuilds field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPrebuilds
+
+`func (o *ProjectConfig) SetPrebuilds(v []PrebuildConfig)`
+
+SetPrebuilds sets Prebuilds field to given value.
+
+### HasPrebuilds
+
+`func (o *ProjectConfig) HasPrebuilds() bool`
+
+HasPrebuilds returns a boolean if a field has been set.
 
 ### GetRepository
 
